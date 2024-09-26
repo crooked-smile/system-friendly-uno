@@ -26,8 +26,34 @@ class Card:
     def toJSON(self):
         return self.__dict__
 
-randomCard = random.randint(0, len(deck)-1)
-cardsAtPlay += [randomCard]
+class Hand:
+    def __init__(self, cardsAtPlay):
+        self.contents = []
+        
+        generatingDeck = True
+        while generatingDeck:
+            if len(self.contents) == 7:
+                generatingDeck = False
+                continue
+            randomCard = Card(random.randint(0, len(deck)-1))
+            if randomCard.cardId in cardsAtPlay: continue
 
-print(Card(randomCard).toJSON())
+            cardsAtPlay += [randomCard.cardId]
+            self.contents += [randomCard]
+            
+    def toJSON(self):
+        jsonContents = []
+        for x in range(len(self.contents)):
+            jsonContents += [self.contents[x].toJSON()]
+
+        valueToReturn = self.__dict__
+        valueToReturn['contents'] = jsonContents
+        return valueToReturn
+
+Hand(cardsAtPlay)
+Hand(cardsAtPlay)
+Hand(cardsAtPlay)
+Hand(cardsAtPlay)
+
+print(len(deck))
 print(cardsAtPlay)
